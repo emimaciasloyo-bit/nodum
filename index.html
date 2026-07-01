@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nodum — Learn Anything</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0d0c0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Nodum">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">Nodum<em>learn for real</em></div>
+  <div class="tr"><div class="xp-pill" id="topbar-xp">⚡ 0 XP</div></div>
+</div>
+
+<!-- HOME -->
+<div class="page active" id="pg-home">
+  <div class="sec">
+    <div class="hero">
+      <div class="hero-greet">Good <em id="greet-time">day</em>.</div>
+      <div class="hero-date" id="hero-date"></div>
+      <div class="hero-row">
+        <div class="hstat"><div class="hv" id="stat-xp">0</div><div class="hl">Total XP</div></div>
+        <div class="hstat"><div class="hv" id="stat-streak">0</div><div class="hl">Day Streak</div></div>
+        <div class="hstat"><div class="hv" id="stat-certs">0</div><div class="hl">Certificates</div></div>
+      </div>
+    </div>
+
+    <div class="streak-card">
+      <div class="streak-top">
+        <div>
+          <div class="streak-num" id="streak-num">0</div>
+          <div class="streak-label">Day Streak 🔥</div>
+        </div>
+        <div class="streak-fire" id="streak-fire">🔥</div>
+      </div>
+      <div class="streak-dots" id="streak-dots"></div>
+    </div>
+
+    <div id="continue-wrap"></div>
+
+    <div class="sh"><div><div class="st">Explore Subjects</div><div class="ss">Pick something new to learn</div></div><div class="sa" onclick="nav('catalog',1)">See all ›</div></div>
+    <div class="subject-grid" id="home-subject-grid"></div>
+    <div class="bs"></div>
+  </div>
+</div>
+
+<!-- CATALOG -->
+<div class="page" id="pg-catalog">
+  <div class="sec">
+    <div class="sh"><div><div class="st">All Subjects</div><div class="ss">20+ fields, pick your path</div></div></div>
+    <div style="margin-bottom:11px"><input type="text" id="catalog-search" placeholder="Search subjects..." oninput="renderCatalog()"></div>
+    <div class="chips" id="catalog-chips"></div>
+    <div id="catalog-list"></div>
+    <div class="bs"></div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="page" id="pg-progress">
+  <div class="sec">
+    <div class="sh"><div><div class="st">Your Progress</div><div class="ss">Track every subject you've started</div></div></div>
+    <div class="card cp">
+      <div class="hero-row" style="margin-bottom:0">
+        <div class="hstat"><div class="hv" id="prog-xp">0</div><div class="hl">Total XP</div></div>
+        <div class="hstat"><div class="hv" id="prog-lessons">0</div><div class="hl">Lessons Done</div></div>
+        <div class="hstat"><div class="hv" id="prog-certs">0</div><div class="hl">Certificates</div></div>
+      </div>
+    </div>
+    <div class="clbl" style="padding:0 2px">In Progress &amp; Completed</div>
+    <div class="card cp" id="progress-list"></div>
+    <div class="clbl" style="padding:0 2px">Certificates Earned</div>
+    <div id="cert-list"></div>
+    <div class="bs"></div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="page" id="pg-settings">
+  <div class="sec">
+    <div class="sh"><div><div class="st">Settings</div><div class="ss">Your data, your device</div></div></div>
+    <div class="card cp">
+      <div class="set-row">
+        <div><div class="set-lbl">Reset a subject</div><div class="set-sub">Clear progress for one subject only</div></div>
+      </div>
+      <div id="reset-subject-list"></div>
+    </div>
+    <div class="card cp">
+      <div class="set-row">
+        <div><div class="set-lbl">Reset everything</div><div class="set-sub">Clears all XP, streaks, and progress</div></div>
+      </div>
+      <button class="btn-danger bfull" style="margin-top:10px" onclick="resetAllProgress()">Reset All Progress</button>
+    </div>
+    <div class="card cp">
+      <div class="clbl">About</div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.8">Nodum is a self-paced learning app covering subjects you'd normally need college for — law, engineering, business, science, and more. All your progress, XP, and streaks are stored locally on this device using your browser's storage. Nothing is sent to a server.</p>
+    </div>
+    <div class="bs"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <button class="nb active" onclick="nav('home',0)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12L12 4l9 8"/><path d="M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>Home</button>
+  <button class="nb" onclick="nav('catalog',1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Catalog</button>
+  <button class="nb" onclick="nav('progress',2)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>Progress</button>
+  <button class="nb" onclick="nav('settings',3)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</button>
+</nav>
+
+<!-- data first: subject files push into global arrays -->
+<script src="js/data/categories.js"></script>
+<script src="js/data/subjects-meta.js"></script>
+<script src="js/data/law.js"></script>
+<script src="js/data/sales.js"></script>
+<script src="js/data/aerospace-engineering.js"></script>
+<script src="js/data/petroleum-engineering.js"></script>
+<script src="js/data/placeholders.js"></script>
+
+<!-- app logic depends on data existing -->
+<script src="js/state.js"></script>
+<script src="js/render-catalog.js"></script>
+<script src="js/render-subject.js"></script>
+<script src="js/render-lesson.js"></script>
+<script src="js/render-progress.js"></script>
+<script src="js/app.js"></script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
